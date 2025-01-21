@@ -1,8 +1,8 @@
-name: Auto Commit
+name: Auto Commit with Randomness
 
 on:
   schedule:
-    - cron: '0 0 * * *' # Runs daily at midnight UTC
+    - cron: '*/30 * * * *' # Runs every 30 minutes (you can adjust this)
   workflow_dispatch: # Allows manual trigger
 
 jobs:
@@ -12,14 +12,23 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v3
 
-      - name: Make Changes
+      - name: Generate Random HTML Content
         run: |
-          echo "Last updated: $(date)" >> index.html
+          # Generate random HTML code
+          RANDOM_HTML=$(shuf -n 1 -e "<p>Hello, World!</p>" "<h1>Random Title</h1>" "<div>Generated at $(date)</div>")
+          echo "$RANDOM_HTML" >> index.html
+
+      - name: Introduce Random Delay
+        run: |
+          # Introduce a random delay between 1 and 1800 seconds (up to 30 minutes)
+          RANDOM_DELAY=$((RANDOM % 1800))
+          echo "Sleeping for $RANDOM_DELAY seconds..."
+          sleep $RANDOM_DELAY
 
       - name: Commit and Push Changes
         run: |
           git config --global user.name "Dhyey-Satani"
           git config --global user.email "dhyeysatanidk@gmail.com"
           git add index.html
-          git commit -m "Auto commit: $(date)"
+          git commit -m "Random Auto Commit: $(date)"
           git push
