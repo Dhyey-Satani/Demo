@@ -1,0 +1,25 @@
+name: Auto Commit
+
+on:
+  schedule:
+    - cron: '0 0 * * *' # Runs daily at midnight UTC
+  workflow_dispatch: # Allows manual trigger
+
+jobs:
+  commit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Make Changes
+        run: |
+          echo "Last updated: $(date)" >> index.html
+
+      - name: Commit and Push Changes
+        run: |
+          git config --global user.name "Dhyey-Satani"
+          git config --global user.email "dhyeysatanidk@gmail.com"
+          git add index.html
+          git commit -m "Auto commit: $(date)"
+          git push
