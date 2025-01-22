@@ -2,7 +2,7 @@ name: Auto Commit with Randomness
 
 on:
   schedule:
-    - cron: '*/30 * * * *' # Runs every 30 minutes (you can adjust this)
+    - cron: '*/720 * * * *' # Runs every 30 minutes (you can adjust this)
   workflow_dispatch: # Allows manual trigger
 
 jobs:
